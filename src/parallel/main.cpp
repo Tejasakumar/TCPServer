@@ -390,7 +390,7 @@ int main(int argc, char **argv)
 
 	listen(sock, 5);
 
-	pthread_t thread_pool[1001]; // Array to hold thread IDs
+	pthread_t thread_pool[101]; // Array to hold thread IDs
 
 	int thread_count = 0;
 
