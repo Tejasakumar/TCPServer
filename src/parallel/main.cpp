@@ -234,13 +234,13 @@ void *serve(void *randomm){
 
     while (1){
 
-        char buffer[1500];
+        char buffer[1024];
 
-        int val = read(confd, buffer, 1500);
+        int val = read(confd, buffer, 1024);
 
         if (val > 0){
 
-            char response[2048];
+            char response[1024];
 
             int returnval = func(buffer, response);
 
@@ -250,6 +250,8 @@ void *serve(void *randomm){
 
                 strcpy(buff, response);
 
+                
+
                 write(confd, buff, strlen(buff));
 
                 printf("Terminating %ld\n",pthread_self());
@@ -257,6 +259,8 @@ void *serve(void *randomm){
                 close(confd);
 
                 shutdown(confd, SHUT_RDWR);
+
+             
 
                 pthread_mutex_lock(&active);
 
@@ -268,15 +272,11 @@ void *serve(void *randomm){
 
             }
 
-            char buff[2048] = {"this is a recieve buffer"};
-
-            strcpy(buff, response);
-
-            write(confd, buff, strlen(buff));
-
         }
 
     }
+
+    pthread_exit(NULL);
 
 }
 
@@ -301,6 +301,8 @@ void printQueue(const std::queue<int>& q) {
 }
 
 void * func(void*args){
+
+
 
 	struct ThreadArgs* threadArgs = static_cast<ThreadArgs*>(args);
 
@@ -327,6 +329,8 @@ void * func(void*args){
                 pthread_mutex_unlock(&pool_lock);
 
                 if (threadTerminationStatus == 0){
+
+					pthread_join(thread_pool[i].thread_id,NULL);
 
 	                pthread_mutex_lock(&mutex);
 
@@ -356,7 +360,7 @@ void * func(void*args){
 
 		
 
-		usleep(10000);
+		usleep(1000);
 
 	}
 
@@ -410,7 +414,7 @@ int main(int argc, char **argv){
 
     pthread_t t;
 
-    
+        
 
     int thread_number = 8;
 
