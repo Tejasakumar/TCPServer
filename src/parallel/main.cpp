@@ -318,7 +318,7 @@ void * func(void*args){
 
 		printQueue(mcq);
 
-		for (int i = 0; i < 25; i++){
+		for (int i = 0; i < 8; i++){
 
 				pthread_mutex_lock(&pool_lock);
 
@@ -412,7 +412,7 @@ int main(int argc, char **argv){
 
     
 
-    int thread_number = 25;
+    int thread_number = 8;
 
     struct Thread thread_pool[thread_number];
 
